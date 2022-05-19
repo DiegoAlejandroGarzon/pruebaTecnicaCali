@@ -75,6 +75,10 @@ class userController extends Controller
             'error'=>'on',
             'mensaje'=>'Error al guardar el usuario',
         ];
+        if(User::where('documentType', $request->documentType)->where('documentNumber', $request->documentNumber)->count() > 0){
+            $data['mensaje'] = "Ya hay un registro de número de documento y tipo de documento con la misma combinación";
+            return response()->json($data,200);
+        }
         $user = User::find($request->idUser);
         $user->firstName = $request->firstName;
         $user->secondName = $request->secondName;
